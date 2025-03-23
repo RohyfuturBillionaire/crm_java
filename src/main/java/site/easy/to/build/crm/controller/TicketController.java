@@ -204,6 +204,8 @@ public class TicketController {
             
         // }
         notif.setEtat(0);
+        notif.setDepense(depenseToInsert);
+
         if (!notif.getMessage().equals("successful")){
             notificationService.save(notif);    
         }

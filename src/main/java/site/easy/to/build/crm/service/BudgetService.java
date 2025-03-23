@@ -63,7 +63,7 @@ public class BudgetService {
         double seuil = seuilService.getSeuilActuel().getTaux().doubleValue();
         double budget = getTotalBudgetByCustomerId(customerId);
         
-        double seuilBudget = budget * seuil;
+        double seuilBudget = budget * (seuil/100);
         LocalDateTime date= LocalDateTime.now();
         Customer cust= customerService.findByCustomerId(customerId);
         if( totalDepense > seuilBudget){
