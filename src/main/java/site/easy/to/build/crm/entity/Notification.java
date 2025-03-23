@@ -29,10 +29,15 @@ public class Notification {
     @JsonIgnoreProperties("notifications")
     private Customer customer;
 
+    @ManyToOne
+    @JoinColumn(name = "id_depense", nullable = false)
+    @JsonIgnoreProperties("notifications")
+    private Depense depense;
 
     public Notification() {
     }
 
+    
     public Notification(String message, LocalDateTime dateNotification, Integer etat, Customer customer) {
         this.message = message;
         this.dateNotification = dateNotification;
@@ -64,6 +69,14 @@ public class Notification {
         this.dateNotification = dateNotification;
     }
 
+    public void setDepense(Depense depense) {
+        this.depense = depense;
+    }
+
+    public Depense getDepense() {
+        return depense;
+    }
+
     public Integer getEtat() {
         return etat;
     }
@@ -79,4 +92,6 @@ public class Notification {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+
 }
