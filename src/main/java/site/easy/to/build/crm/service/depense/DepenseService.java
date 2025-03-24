@@ -6,6 +6,7 @@ import java.util.Optional;
 import site.easy.to.build.crm.entity.Depense;
 import site.easy.to.build.crm.entity.Lead;
 
+
 public interface DepenseService {
     List<Depense> getAllDepenses();
     Optional<Depense> getDepenseById(Integer id);
@@ -13,5 +14,10 @@ public interface DepenseService {
     void deleteDepense(Integer id);
     void updateDepenseEtat(int depenseId, int newEtat);
     double getTotalDepenseByCustomerId(int customerId);
+    List<Depense> getDepensesWithTickets();
+    List<Object[]> findTotalDepenseByCustomer();
+    List<Object[]> findTotalDepenseLeadsByCustomer();
+    double totalDepensesLead();
+    double totalDepensesTicket();
   
 }

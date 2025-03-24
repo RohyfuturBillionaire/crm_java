@@ -56,6 +56,15 @@ public class BudgetService {
     public double getTotalBudgetByCustomerId(int customerId) {
         return budgetRepository.getTotalBudgetByCustomerId(customerId);
     }
+
+    public List<Object[]> findTotalBudgetByCustomer(){
+        return budgetRepository.findTotalBudgetByCustomer();
+    }
+
+    public double totalbudget()
+        {
+            return budgetRepository.getTotalBudgets();
+        }
     
    public Notification checkBudget(int customerId,double newDepense){
         double totalDepense = depenseService.getTotalDepenseByCustomerId(customerId)+newDepense;
@@ -63,7 +72,7 @@ public class BudgetService {
         double seuil = seuilService.getSeuilActuel().getTaux().doubleValue();
         double budget = getTotalBudgetByCustomerId(customerId);
         
-        double seuilBudget = budget * seuil;
+        double seuilBudget = budget * (seuil/100);
         LocalDateTime date= LocalDateTime.now();
         Customer cust= customerService.findByCustomerId(customerId);
         if( totalDepense > seuilBudget){

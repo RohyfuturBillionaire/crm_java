@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import site.easy.to.build.crm.entity.User;
 import site.easy.to.build.crm.service.login.LoginService;
 
 @RestController
@@ -19,7 +20,7 @@ public class LoginRestController {
     }
     
     @PostMapping
-    public boolean login(@RequestParam("username") String username,@RequestParam("password") String password) {
+    public User login(@RequestParam("username") String username,@RequestParam("password") String password) {
         return loginService.checkLogin(username,password);
     }
 }

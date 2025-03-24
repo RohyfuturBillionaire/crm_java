@@ -20,13 +20,19 @@ public class LoginService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public boolean checkLogin(String username, String password) throws UsernameNotFoundException {
+    public User checkLogin(String username, String password) throws UsernameNotFoundException {
         List<User> users = userRepository.findByUsername(username);
         if (!users.isEmpty()) {
-            User user = users.get(0);
-            return passwordEncoder.matches(password, user.getPassword()); // Utiliser matches()
+            User user = users
+            .get(0);
+            boolean matches = passwordEncoder.matches(password, user.getPassword());
+            if(matches)
+            {
+                return user;
+            }
+            // return passwordEncoder.matches(password, user.getPassword()); // Utiliser matches()
         }
-        return false;
+        return null;
     }
     
 }
