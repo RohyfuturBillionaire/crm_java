@@ -26,6 +26,10 @@ public interface DepenseRepository extends JpaRepository<Depense, Integer> {
     @Query("SELECT d FROM Depense d JOIN FETCH d.ticket WHERE d.etat = 1")
     List<Depense> findAllWithTickets();
 
+    
+    @Query("SELECT d FROM Depense d JOIN FETCH d.lead WHERE d.etat = 1")
+    List<Depense> findAllWithLeads();
+
     @Query("SELECT d.ticket.customer.customerId,d.ticket.customer.name,SUM(d.valeurDepense) " +
     "FROM Depense d " +
     "WHERE d.ticket IS NOT NULL " +

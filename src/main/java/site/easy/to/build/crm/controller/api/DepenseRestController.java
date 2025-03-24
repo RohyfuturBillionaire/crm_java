@@ -16,10 +16,16 @@ public class DepenseRestController {
     @Autowired
     private DepenseService depenseService;
 
-    @GetMapping
+    @GetMapping("/ticket")
     public List<Depense> getDepensesWithTickets() {
         return depenseService.getDepensesWithTickets();
     }
+
+    @GetMapping("/Lead")
+    public List<Depense> getDepensesWiiLeads()
+        {
+            return depenseService.getDepensesWithLeads();
+        }
 
     @GetMapping("/leads/total")
     public double getTotalDepenseLead() {

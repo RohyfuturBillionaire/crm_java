@@ -15,6 +15,7 @@ public interface DepenseService {
     void updateDepenseEtat(int depenseId, int newEtat);
     double getTotalDepenseByCustomerId(int customerId);
     List<Depense> getDepensesWithTickets();
+    List<Depense> getDepensesWithLeads();
     List<Object[]> findTotalDepenseByCustomer();
     List<Object[]> findTotalDepenseLeadsByCustomer();
     double totalDepensesLead();

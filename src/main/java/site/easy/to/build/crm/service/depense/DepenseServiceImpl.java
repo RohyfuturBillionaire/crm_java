@@ -77,6 +77,12 @@ public class DepenseServiceImpl implements DepenseService {
     public List<Object[]> findTotalDepenseLeadsByCustomer(){
         return depenseRepository.findTotalDepenseLeadsByCustomer();
     }
+
+    @Override
+        public List<Depense> getDepensesWithLeads(){
+            return depenseRepository.findAllWithTickets();
+        }
+
     @Override
     public void updateDepenseEtat(int depenseid, int newEtat) {
         Optional<Depense> depense = depenseRepository.findById(depenseid);
