@@ -47,4 +47,13 @@ public class DepenseRestController {
         return depenseService.findTotalDepenseLeadsByCustomer();
     }
 
+    @PostMapping("/update")
+    public void updateDepense(@RequestParam("montant")  double newMontant,@RequestParam("id") int id) {
+        Depense depense=depenseService.getDepenseById(id).get();
+        if (depense!=null) {
+            depense.setValeurDepense(newMontant);
+            depenseService.saveDepense(depense);    
+        }
+    }
+
 }

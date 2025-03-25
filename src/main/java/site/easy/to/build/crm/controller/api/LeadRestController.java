@@ -1,6 +1,7 @@
 package site.easy.to.build.crm.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,11 @@ public class LeadRestController {
         leadService.delete(lead);
         
     }
+
+    
+        
+        
+    
 
 
     

@@ -13,7 +13,6 @@ public interface DepenseService {
     Depense saveDepense(Depense depense);
     void deleteDepense(Integer id);
     void updateDepenseEtat(int depenseId, int newEtat);
-    void updateDepenseMontant(int depenseId, double newMontant);
     double getTotalDepenseByCustomerId(int customerId);
     List<Depense> getDepensesWithTickets();
     List<Depense> getDepensesWithLeads();
@@ -21,5 +20,6 @@ public interface DepenseService {
     List<Object[]> findTotalDepenseLeadsByCustomer();
     double totalDepensesLead();
     double totalDepensesTicket();
+    public void updateDepenseMontant(int depenseId, double newMontant);
   
 }
