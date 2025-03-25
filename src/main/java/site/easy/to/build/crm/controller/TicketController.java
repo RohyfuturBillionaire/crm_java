@@ -133,7 +133,7 @@ public class TicketController {
     @PostMapping("/create-ticket")
     public String createTicket(@ModelAttribute("ticket") @Validated Ticket ticket, BindingResult bindingResult, @RequestParam("customerId") int customerId,
                                @RequestParam Map<String, String> formParams, Model model,
-                               @RequestParam("employeeId") int employeeId, @RequestParam("depense") double depense,Authentication authentication) {
+                               @RequestParam("employeeId") int employeeId, @RequestParam("depense") double depense,Authentication authentication) throws Exception {
 
         int userId = authenticationUtils.getLoggedInUserId(authentication);
         User manager = userService.findById(userId);

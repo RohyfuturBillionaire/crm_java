@@ -20,6 +20,13 @@
 		<sql.password>${SQL_PASSWORD}</sql.password>
 	</properties>
 	<dependencies>
+
+    	<dependency>
+    		<groupId>org.apache.commons</groupId>
+    		<artifactId>commons-csv</artifactId>
+    		<version>1.14.0</version>
+    	</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>

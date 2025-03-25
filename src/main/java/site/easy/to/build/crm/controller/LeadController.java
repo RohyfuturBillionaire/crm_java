@@ -180,7 +180,7 @@ public class LeadController {
     public String createLead(@ModelAttribute("lead") @Validated Lead lead, BindingResult bindingResult,
                              @RequestParam("customerId") int customerId, @RequestParam("employeeId") int employeeId,
                              Authentication authentication, @RequestParam("allFiles")@Nullable String files,
-                             @RequestParam("folderId") @Nullable String folderId,@RequestParam("depense") double depense ,Model model) throws JsonProcessingException {
+                             @RequestParam("folderId") @Nullable String folderId,@RequestParam("depense") double depense ,Model model) throws JsonProcessingException,Exception {
 
         int userId = authenticationUtils.getLoggedInUserId(authentication);
         User manager = userService.findById(userId);

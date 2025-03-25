@@ -63,7 +63,7 @@ public class CustomerProfileController {
     @PostMapping("/profile/update")
     @Transactional
     public String updateUser(@ModelAttribute("customer") @Validated(Customer.CustomerUpdateValidationGroupInclusion.class) Customer customer,
-                             BindingResult bindingResult, Authentication authentication, @RequestParam("userId") int userId, Model model) {
+                             BindingResult bindingResult, Authentication authentication, @RequestParam("userId") int userId, Model model) throws Exception {
 
         if(bindingResult.hasErrors()) {
             int customerId = authenticationUtils.getLoggedInUserId(authentication);
