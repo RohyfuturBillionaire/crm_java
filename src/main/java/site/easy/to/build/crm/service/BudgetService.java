@@ -56,6 +56,15 @@ public class BudgetService {
     public double getTotalBudgetByCustomerId(int customerId) {
         return budgetRepository.getTotalBudgetByCustomerId(customerId);
     }
+
+    public List<Object[]> findTotalBudgetByCustomer(){
+        return budgetRepository.findTotalBudgetByCustomer();
+    }
+
+    public double totalbudget()
+        {
+            return budgetRepository.getTotalBudgets();
+        }
     
    public Notification checkBudget(int customerId,double newDepense){
         double totalDepense = depenseService.getTotalDepenseByCustomerId(customerId)+newDepense;

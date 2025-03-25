@@ -4,12 +4,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.annotations.DialectOverride.OverridesAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.validation.OverridesAttribute;
 import site.easy.to.build.crm.entity.Depense;
 import site.easy.to.build.crm.entity.Lead;
 import site.easy.to.build.crm.entity.Notification;
+
 import site.easy.to.build.crm.repository.DepenseRepository;
 import site.easy.to.build.crm.service.BudgetService;
 import site.easy.to.build.crm.service.notification.NotificationService;
@@ -24,6 +27,16 @@ public class DepenseServiceImpl implements DepenseService {
     public DepenseServiceImpl(DepenseRepository depenseRepository ){
         this.depenseRepository = depenseRepository;
 
+    }
+
+    @Override
+    public double totalDepensesLead() {
+        return depenseRepository.totalDepenseLead();
+    }
+
+    @Override   
+    public double totalDepensesTicket() {
+        return depenseRepository.totalDepenseTicket();
     }
 
     @Override
@@ -50,6 +63,25 @@ public class DepenseServiceImpl implements DepenseService {
     public double getTotalDepenseByCustomerId(int customerId) {
         return depenseRepository.getTotalDepenseByCustomerId(customerId);
     }
+    @Override
+    public List<Depense> getDepensesWithTickets() {
+        return depenseRepository.findAllWithTickets();
+    }
+
+    @Override
+    public List<Object[]>  findTotalDepenseByCustomer(){
+        return depenseRepository.findTotalDepenseByCustomer();
+    }
+
+    @Override
+    public List<Object[]> findTotalDepenseLeadsByCustomer(){
+        return depenseRepository.findTotalDepenseLeadsByCustomer();
+    }
+
+    @Override
+        public List<Depense> getDepensesWithLeads(){
+            return depenseRepository.findAllWithLeads();
+        }
 
     @Override
     public void updateDepenseEtat(int depenseid, int newEtat) {
@@ -60,6 +92,21 @@ public class DepenseServiceImpl implements DepenseService {
             depenseRepository.save(depense2);
         }
     }
+
+    
+
+    @Override
+     public void updateDepenseMontant(int depenseId, double newMontant)
+        {
+            Optional<Depense> depense = depenseRepository.findById(depenseId);
+        Depense depense2=depense.get();
+        if (depense2 != null) {
+            depense2.setValeurDepense(newMontant);
+            depenseRepository.save(depense2);
+        }
+
+        }
+
     // public void createDepense(Lead lead, double newDepense){
     //     Depense depense = new Depense();
     //     depense.setLead(lead);

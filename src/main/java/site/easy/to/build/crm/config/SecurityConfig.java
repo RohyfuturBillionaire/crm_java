@@ -69,31 +69,38 @@ public class SecurityConfig {
                         .requestMatchers("/save").permitAll()
                         .requestMatchers("/js/**").permitAll()
                         .requestMatchers("/css/**").permitAll()
+                        .requestMatchers("/api/login").permitAll()
+                        .requestMatchers("/api/depenses/**").permitAll()
+                        .requestMatchers("/api/budgets/**").permitAll()
+                        .requestMatchers("/api/leads/**").permitAll()
+                        .requestMatchers("/api/tickets/**").permitAll()
+                        .requestMatchers("/api/dashboard/**").permitAll()
+                        .requestMatchers("/api/seuils/**").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/**/manager/**")).hasRole("MANAGER")
                         .requestMatchers("/employee/**").hasAnyRole("MANAGER", "EMPLOYEE")
+                        .requestMatchers("/employee/ticket/**").hasAnyRole("MANAGER", "EMPLOYEE")
                         .requestMatchers("/customer/**").hasRole("CUSTOMER")
-                        .anyRequest().authenticated()
-                )
-
-                .formLogin((form) -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/", true)
-                        .failureUrl("/login")
-                        .permitAll()
-                ).userDetailsService(crmUserDetails)
-                .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/login")
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .userService(oauthUserService))
-                        .successHandler(oAuth2LoginSuccessHandler)
-                ).logout((logout) -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
-                        .permitAll())
-                .exceptionHandling(exception -> {
-                    exception.accessDeniedHandler(accessDeniedHandler());
-                });
+                        .anyRequest().authenticated())
+                        .csrf(csrf -> csrf.ignoringRequestMatchers("/api/login","/api/depenses/**","/api/budgets/**","/api/leads/**","/api/tickets/**","/api/dashboard/**","/api/seuils/**"))
+                        .formLogin((form) -> form
+                                .loginPage("/login")
+                                .loginProcessingUrl("/login")
+                                .defaultSuccessUrl("/", true)
+                                .failureUrl("/login")
+                                .permitAll()
+                        ).userDetailsService(crmUserDetails)
+                        .oauth2Login(oauth2 -> oauth2
+                                .loginPage("/login")
+                                .userInfoEndpoint(userInfo -> userInfo
+                                        .userService(oauthUserService))
+                                .successHandler(oAuth2LoginSuccessHandler)
+                        ).logout((logout) -> logout
+                                .logoutUrl("/logout")
+                                .logoutSuccessUrl("/login")
+                                .permitAll())
+                        .exceptionHandling(exception -> {
+                        exception.accessDeniedHandler(accessDeniedHandler());
+                        });
 
 
         return http.build();
@@ -124,9 +131,16 @@ public class SecurityConfig {
                         .requestMatchers("/images/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
                         .requestMatchers("/css/**").permitAll()
+                        .requestMatchers("/api/login").permitAll()
+                        .requestMatchers("/api/depenses/**").permitAll()
+                        .requestMatchers("/api/budgets/**").permitAll()
+                        .requestMatchers("/api/leads/**").permitAll()
+                        .requestMatchers("/api/tickets/**").permitAll()
+                        .requestMatchers("/api/dashboard/**").permitAll()
+                        .requestMatchers("/api/seuils/**").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/**/manager/**")).hasRole("MANAGER")
                         .anyRequest().authenticated()
-                )
+                ) .csrf(csrf -> csrf.ignoringRequestMatchers("/api/login").ignoringRequestMatchers("/api/depenses/**","/api/budgets/**","/api/leads/**","/api/tickets/**","/api/dashboard/**","/api/seuils/**"))
 
                 .formLogin((form) -> form
                         .loginPage("/customer-login")

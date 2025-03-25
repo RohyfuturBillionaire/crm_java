@@ -166,8 +166,8 @@
                     </a>
                     <ul class="collapse">
                         <!--                        <li><a href="/all-customers">All customers</a></li>-->
-                        <li><a th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" th:href="${home + 'employee/seuils/showSeuilActual'}">All Seuil</a></li>
-                        <li><a th:href="${home + 'employee/seuils/create'}">Create Seuil</a></li>
+                        <li><a  th:href="${home + 'employee/seuils/showSeuilActual'}">All Seuil</a></li>
+                        <li><a th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" th:href="${home + 'employee/seuils/create'}">Create Seuil</a></li>
                     </ul>
                 </li>
                 <li class="nav-small-cap">--- Email Templates</li>
