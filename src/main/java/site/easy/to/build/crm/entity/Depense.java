@@ -38,8 +38,17 @@ public class Depense {
     }
     // Getters and Setters
 
-    public void setDateDepense(LocalDateTime dateDepense) {
+    public void setDateDepense(LocalDateTime dateDepense)  {
         this.dateDepense = dateDepense;
+    }
+
+    public void setDateDepense(String date) throws Exception {
+        try {
+            this.dateDepense = LocalDateTime.parse(date);
+        } catch (Exception e) {
+             throw new Exception("La date de la dépense n'est pas valide");
+        }
+        
     }
 
     public void setDepenseId(Integer depenseId) {
@@ -58,7 +67,11 @@ public class Depense {
         this.ticket = ticket;
     }
 
-    public void setValeurDepense(double valeurDepense) {
+    public void setValeurDepense(double valeurDepense) throws Exception {
+        if (valeurDepense < 0) {
+            throw new Exception("La valeur de la dépense ne peut pas être négative");
+            
+        }
         this.valeurDepense = valeurDepense;
     }
 

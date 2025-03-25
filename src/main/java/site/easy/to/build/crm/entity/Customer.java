@@ -109,7 +109,10 @@ public class Customer {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name) throws Exception {
+        if (name==null||name.isEmpty()) {
+            throw new Exception("Nom du client manquant ");
+        }
         this.name = name;
     }
 
@@ -117,7 +120,10 @@ public class Customer {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) throws Exception {
+        if (email == null || email.isEmpty()) {
+            throw new Exception("Email du client manquant " );
+        }
         this.email = email;
     }
 

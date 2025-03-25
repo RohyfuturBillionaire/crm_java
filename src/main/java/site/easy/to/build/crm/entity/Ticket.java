@@ -3,6 +3,8 @@ package site.easy.to.build.crm.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder.Default;
+
 import org.hibernate.mapping.ToOne;
 
 import java.time.LocalDateTime;
@@ -17,6 +19,7 @@ public class Ticket {
 
     @Column(name = "subject")
     @NotBlank(message = "Subject is required")
+    
     private String subject;
 
     @Column(name = "description")
