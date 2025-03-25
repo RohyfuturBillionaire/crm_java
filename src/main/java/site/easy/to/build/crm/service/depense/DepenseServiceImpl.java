@@ -96,7 +96,7 @@ public class DepenseServiceImpl implements DepenseService {
     
 
     @Override
-     public void updateDepenseMontant(int depenseId, double newMontant)
+     public void updateDepenseMontant(int depenseId, double newMontant) throws Exception
         {
             Optional<Depense> depense = depenseRepository.findById(depenseId);
         Depense depense2=depense.get();

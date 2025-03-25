@@ -48,7 +48,7 @@ public class DepenseRestController {
     }
 
     @PostMapping("/update")
-    public void updateDepense(@RequestParam("montant")  double newMontant,@RequestParam("id") int id) {
+    public void updateDepense(@RequestParam("montant")  double newMontant,@RequestParam("id") int id) throws Exception {
         System.out.println("new Montant ="+newMontant);
         System.out.println("id =" + id);
         

@@ -20,6 +20,6 @@ public interface DepenseService {
     List<Object[]> findTotalDepenseLeadsByCustomer();
     double totalDepensesLead();
     double totalDepensesTicket();
-    public void updateDepenseMontant(int depenseId, double newMontant);
+    public void updateDepenseMontant(int depenseId, double newMontant) throws Exception;
   
 }
