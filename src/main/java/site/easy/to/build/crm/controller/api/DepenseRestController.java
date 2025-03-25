@@ -49,6 +49,9 @@ public class DepenseRestController {
 
     @PostMapping("/update")
     public void updateDepense(@RequestParam("montant")  double newMontant,@RequestParam("id") int id) {
+        System.out.println("new Montant ="+newMontant);
+        System.out.println("id =" + id);
+        
         depenseService.updateDepenseMontant(id,newMontant);
     }
 

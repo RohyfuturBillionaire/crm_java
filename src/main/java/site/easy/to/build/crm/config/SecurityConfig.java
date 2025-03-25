@@ -75,12 +75,13 @@ public class SecurityConfig {
                         .requestMatchers("/api/leads/**").permitAll()
                         .requestMatchers("/api/tickets/**").permitAll()
                         .requestMatchers("/api/dashboard/**").permitAll()
+                        .requestMatchers("/api/seuils/**").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/**/manager/**")).hasRole("MANAGER")
                         .requestMatchers("/employee/**").hasAnyRole("MANAGER", "EMPLOYEE")
                         .requestMatchers("/employee/ticket/**").hasAnyRole("MANAGER", "EMPLOYEE")
                         .requestMatchers("/customer/**").hasRole("CUSTOMER")
                         .anyRequest().authenticated())
-                        .csrf(csrf -> csrf.ignoringRequestMatchers("/api/login","/api/depenses/**","/api/budgets/**","/api/leads/**","/api/tickets/**","/api/dashboard/**"))
+                        .csrf(csrf -> csrf.ignoringRequestMatchers("/api/login","/api/depenses/**","/api/budgets/**","/api/leads/**","/api/tickets/**","/api/dashboard/**","/api/seuils/**"))
                         .formLogin((form) -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
@@ -136,9 +137,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/leads/**").permitAll()
                         .requestMatchers("/api/tickets/**").permitAll()
                         .requestMatchers("/api/dashboard/**").permitAll()
+                        .requestMatchers("/api/seuils/**").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/**/manager/**")).hasRole("MANAGER")
                         .anyRequest().authenticated()
-                ) .csrf(csrf -> csrf.ignoringRequestMatchers("/api/login").ignoringRequestMatchers("/api/depenses/**","/api/budgets/**","/api/leads/**","/api/tickets/**","/api/dashboard/**"))
+                ) .csrf(csrf -> csrf.ignoringRequestMatchers("/api/login").ignoringRequestMatchers("/api/depenses/**","/api/budgets/**","/api/leads/**","/api/tickets/**","/api/dashboard/**","/api/seuils/**"))
 
                 .formLogin((form) -> form
                         .loginPage("/customer-login")
