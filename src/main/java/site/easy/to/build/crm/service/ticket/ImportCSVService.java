@@ -34,7 +34,7 @@ package site.easy.to.build.crm.service.ticket;
                  CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
                          .withFirstRecordAsHeader()
                          .withDelimiter(separator))) {  // Spécifiez le séparateur ici
-    
+                            
                 for (CSVRecord csvRecord : csvParser) {
                     // T instance = clazz.getDeclaredConstructor().newInstance();
     
