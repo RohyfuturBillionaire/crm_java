@@ -80,7 +80,7 @@ public class DepenseServiceImpl implements DepenseService {
 
     @Override
         public List<Depense> getDepensesWithLeads(){
-            return depenseRepository.findAllWithTickets();
+            return depenseRepository.findAllWithLeads();
         }
 
     @Override
@@ -92,6 +92,21 @@ public class DepenseServiceImpl implements DepenseService {
             depenseRepository.save(depense2);
         }
     }
+
+    
+
+    @Override
+     public void updateDepenseMontant(int depenseId, double newMontant)
+        {
+            Optional<Depense> depense = depenseRepository.findById(depenseId);
+        Depense depense2=depense.get();
+        if (depense2 != null) {
+            depense2.setValeurDepense(newMontant);
+            depenseRepository.save(depense2);
+        }
+
+        }
+
     // public void createDepense(Lead lead, double newDepense){
     //     Depense depense = new Depense();
     //     depense.setLead(lead);

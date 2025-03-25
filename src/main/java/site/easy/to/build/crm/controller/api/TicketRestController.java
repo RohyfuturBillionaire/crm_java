@@ -21,10 +21,20 @@ public class TicketRestController {
     @Autowired
     private TicketService ticketService;
 
+    @Autowired
+    private DepenseService depenseService;
    
     @GetMapping
     public List<Ticket> findAll(){
         return ticketService.findAll();
+    }
+
+    @DeleteMapping("/delete/{id}/{idDepense}")
+    public void deleteLead(@PathVariable("id") int id, @PathVariable("idDepense") int idDepense) {
+        Ticket ticket = ticketService.findByTicketId(id);
+        depenseService.deleteDepense(idDepense);
+        ticketService.delete(ticket);
+        
     }
    
 
