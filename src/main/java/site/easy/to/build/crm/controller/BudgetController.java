@@ -34,7 +34,7 @@ public class BudgetController {
 
 
     @PostMapping("/save")
-    public String saveBudget(@ModelAttribute Budget budget,Authentication authentication){
+    public String saveBudget(@ModelAttribute Budget budget,Authentication authentication) throws Exception{
         int userId = authenticationUtils.getLoggedInUserId(authentication);
         Customer customer = customerService.findByCustomerId(userId);
         budget.setCustomer(customer);

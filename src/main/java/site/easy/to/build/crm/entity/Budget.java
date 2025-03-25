@@ -42,7 +42,10 @@ public class Budget {
         return valeur;
     }
 
-    public void setValeur(double valeur) {
+    public void setValeur(double valeur) throws Exception {
+        if (valeur<0) {
+            throw new Exception("valeur negative");
+        }
         this.valeur = valeur;
     }
 
@@ -50,7 +53,10 @@ public class Budget {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(Customer customer) throws Exception {
+        if (customer==null) {
+            throw new Exception("valeur customer vide");
+        }
         this.customer = customer;
     }
 

@@ -81,7 +81,7 @@
                                 </div>
                                 <label class="m-t-20" for="subject">depense:</label>
                                 <div class="input-group">
-                                    <input type="number" name="depense" id="depense" class="form-control">
+                                    <input type="number" name="depense" id="depense" min="0" class="form-control">
                                 </div>
                                 <div class="input-group">
                                     <span class="text-danger font-weight-bold" th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></span>
