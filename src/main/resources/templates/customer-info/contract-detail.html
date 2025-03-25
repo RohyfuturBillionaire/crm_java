@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="row" th:if="${!attachments.isEmpty()}">
                                     <div class="col-md-3" th:each="attachment : ${attachments}">
-                                        <a th:href="@{'data:' + ${attachment.mimeType} + ';base64,' + ${attachment.data}}" th:download="${attachment.name}">
+                                        <a th:href="@{'data:' + ${attachment.mimeType} + ';base64,' + ${attachment.data} }" th:download="${attachment.name}">
                                             <img th:if="${attachment.mimeType.startsWith('image')}" class="img-thumbnail img-responsive" alt="attachment" th:src="@{'data:' + ${attachment.mimeType} + ';base64,' + ${attachment.data}}" />
                                             <span th:if="${!attachment.mimeType.startsWith('image')}" th:text="${attachment.name}"></span>
                                         </a>
