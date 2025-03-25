@@ -22,6 +22,7 @@ import site.easy.to.build.crm.entity.Depense;
 import site.easy.to.build.crm.entity.Lead;
 import site.easy.to.build.crm.entity.Ticket;
 import site.easy.to.build.crm.entity.User;
+import site.easy.to.build.crm.exception.ImportException;
 import site.easy.to.build.crm.service.BudgetService;
 import site.easy.to.build.crm.service.customer.CustomerLoginInfoService;
 import site.easy.to.build.crm.service.customer.CustomerService;
@@ -35,11 +36,11 @@ import site.easy.to.build.crm.util.EmailTokenUtils;
 public class ImportService {
 
 
-    public void readOthercsv(MultipartFile file,char separator,
+    public List<String> ticketleadCSV(MultipartFile file,char separator,
     CustomerService customerService,UserService userService,TicketService ticketService,LeadService leadService,
     DepenseService depenseService)
-    throws Exception{
-
+    throws Exception{   
+        List<String> errors=new ArrayList<>();
         List<User> users=userService.findByRoles_Name("ROLE_MANAGER");
         List<User> users2=userService.findByRoles_Name("ROLE_EMPLOYEE");
         users2.addAll(users);
@@ -99,7 +100,8 @@ public class ImportService {
 
 
                         } catch (Exception e) {
-                            throw e;
+                            e.printStackTrace();
+                            errors.add(file.getOriginalFilename() + " : " + "Erreur lors de la lecture du fichier CSV : " + e.getMessage() + " à la ligne " + line);
 
                         }
                     }
@@ -129,35 +131,40 @@ public class ImportService {
                             depenseService.saveDepense(depense);
 
                         } catch (Exception e) {
-                            throw e;
+                            e.printStackTrace();
+                            errors.add(file.getOriginalFilename() + " : " + "Erreur lors de la lecture du fichier CSV : " + e.getMessage() + " à la ligne " + line);
                         }
                     }
                     else{
-                        throw new Exception("Invalid type value");
+                        
+                            errors.add(file.getOriginalFilename() + " : " + "Erreur lors de la lecture du fichier CSV : " + "Invalide type" + " à la ligne " + line);
                     }
 
                     line++;
                 
                 
                 }else{
+                    errors.add("Invalid CSV file ++"+csvRecord.size());
                     throw new Exception("Invalid CSV file ++"+csvRecord.size());
                 }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("Erreur lors de la lecture du fichier CSV : " + e.getMessage()+" à la ligne "+line);
+            errors.add("error : " + e.getMessage());
+            
         }
-
+        return errors;
     }
 
 
 
 
-     public void importCsv(MultipartFile file,CustomerService customerService,char separator,
+     public List<String> importCsvCustomer(MultipartFile file,CustomerService customerService,char separator,
     PasswordEncoder passwordEncoder,CustomerLoginInfoService customerLoginInfoService,
     UserService userService) 
     throws Exception {
+        List<String> errors=new ArrayList<>();
         List<Customer> customers = new ArrayList<>();
         // List<CustomerLoginInfo> customerLoginInfos = new ArrayList<>();
         
@@ -172,43 +179,50 @@ public class ImportService {
             for (CSVRecord csvRecord : csvParser) {
 
                 if (csvRecord.size() == 2) {
-                    Customer customer = new Customer();
-                    String nomCustomer=csvRecord.get("customer_name").trim();
-                    customer.setName(nomCustomer);
-                    String emailCustomer=csvRecord.get("customer_email").trim();
-                    customer.setEmail(emailCustomer);
+                    try {
+                        Customer customer = new Customer();
+                        String nomCustomer=csvRecord.get("customer_name").trim();
+                        customer.setName(nomCustomer);
+                        String emailCustomer=csvRecord.get("customer_email").trim();
+                        customer.setEmail(emailCustomer);
 
-                    CustomerLoginInfo customerLoginInfo = new CustomerLoginInfo();
-                    customerLoginInfo.setEmail(emailCustomer);
-                    customerLoginInfo.setToken(EmailTokenUtils.generateToken());
-                    customerLoginInfo.setPasswordSet(true);
-                    customerLoginInfo.setPassword(passwordEncoder.encode("123"));
+                        CustomerLoginInfo customerLoginInfo = new CustomerLoginInfo();
+                        customerLoginInfo.setEmail(emailCustomer);
+                        customerLoginInfo.setToken(EmailTokenUtils.generateToken());
+                        customerLoginInfo.setPasswordSet(true);
+                        customerLoginInfo.setPassword(passwordEncoder.encode("123"));
 
-                    CustomerLoginInfo customerLoginInfo2=customerLoginInfoService.save(customerLoginInfo);
+                        CustomerLoginInfo customerLoginInfo2=customerLoginInfoService.save(customerLoginInfo);
+                        
+                        customer.setCustomerLoginInfo(customerLoginInfo2);
+                        
+                        customer.setPosition("imported");
+                        customer.setPhone("0000000000");
+                        customer.setAddress("imported");
+                        customer.setCity("imported");
+                        customer.setState("imported");
+                        customer.setCountry("Madgascar");
+                        customer.setCreatedAt(LocalDateTime.now());
+                        customer.setDescription("imported");
+
+
+                        User user = userService.findById(58);
+                        customer.setUser(user);
+
+                        Customer customer2=customerService.save(customer);
+
+                        customers.add(customer2);
+
+                        line ++;    
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        errors.add(file.getOriginalFilename() + " : " + "Erreur lors de la lecture du fichier CSV : "
+                        + e.getMessage() + " à la ligne " + line);
+                    }
                     
-                    customer.setCustomerLoginInfo(customerLoginInfo2);
-                    
-                    customer.setPosition("imported");
-                    customer.setPhone("0000000000");
-                    customer.setAddress("imported");
-                    customer.setCity("imported");
-                    customer.setState("imported");
-                    customer.setCountry("Madgascar");
-                    customer.setCreatedAt(LocalDateTime.now());
-                    customer.setDescription("imported");
-
-
-                    User user = userService.findById(58);
-                    customer.setUser(user);
-
-                    Customer customer2=customerService.save(customer);
-
-                    customers.add(customer2);
-
-                    line ++;
                 
                 } else {
-                    throw new Exception("Invalid CSV file");
+                    errors.add(file.getOriginalFilename() + " : " + "Invalid CSV file à la ligne " + line);
                     
                 }
             }
@@ -216,18 +230,20 @@ public class ImportService {
         } catch (Exception e) {
             e.printStackTrace();
 
-            throw new Exception("Erreur lors de la lecture du fichier CSV : " + e.getMessage()+" à la ligne "+line);
+            errors.add("error : " + e.getMessage());
         }
+
+        return errors;
     }
 
 
 
 
-     public void readBudgetcsv(MultipartFile file,BudgetService budgetService,char separator,
+     public List<String> readBudgetcsv(MultipartFile file,BudgetService budgetService,char separator,
     CustomerService customerService)
     throws Exception{
 
-        
+        List<String> errors=new ArrayList<>();
         
         int line=2;            
 
@@ -252,36 +268,41 @@ public class ImportService {
                         budgetService.save(budget);
 
                     } catch (Exception e) {
-                        throw e;
+                        e.printStackTrace();
+                        errors.add(file.getOriginalFilename() + " : " + "Erreur lors de la lecture du fichier CSV : ");
                     }
                     
                 }else{
-                    throw new Exception("Invalid CSV file ++"+csvRecord.size());
+                    
+                    errors.add("Invalid CSV file ++"+csvRecord.size());
+                    
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("Erreur lors de la lecture du fichier CSV : " + e.getMessage()+" à la ligne "+line);
+            errors.add("error : " + e.getMessage());
         }
 
+        return errors;
     }
 
     @Transactional(rollbackOn = Exception.class)
     public void ImportMitambatra(MultipartFile file,MultipartFile file2,MultipartFile file3,CustomerService customerService,char separator,
     PasswordEncoder passwordEncoder,CustomerLoginInfoService customerLoginInfoService,
     UserService userService,TicketService ticketService
-    ,LeadService leadService,DepenseService depenseService,BudgetService budgetService) throws Exception{
+    ,LeadService leadService,DepenseService depenseService,BudgetService budgetService) throws ImportException,Exception{
         int filenb=1;
-        try {
-            importCsv(file, customerService, separator, passwordEncoder, customerLoginInfoService, userService);
+        List<String> errors = new ArrayList<>();
+        errors.addAll(importCsvCustomer(file, customerService, separator, passwordEncoder, customerLoginInfoService, userService));
             filenb++;
-            readBudgetcsv(file2, budgetService , separator, customerService);
+        errors.addAll(readBudgetcsv(file2, budgetService , separator, customerService));
             filenb++;
-            readOthercsv(file3, separator, customerService, userService, ticketService, leadService, depenseService);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage()+"sur le ficker"+filenb);
-        }
+         errors.addAll( ticketleadCSV(file3, separator, customerService, userService, ticketService, leadService, depenseService)) ;
+        
+         if(!errors.isEmpty())
+            {
+                throw new ImportException("errors", errors);
+            }
     }
 
 }

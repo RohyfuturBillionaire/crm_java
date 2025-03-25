@@ -105,7 +105,7 @@ public class GoogleCalendarController {
     @PostMapping("/create-event")
     public String createEvent(@ModelAttribute("eventDisplay") @Valid EventDisplay eventDisplay, BindingResult bindingResult,
                               @RequestParam("emails") String emails, Authentication authentication, Model model,
-                              @RequestParam(value = "leadId", required = false) Integer leadId) {
+                              @RequestParam(value = "leadId", required = false) Integer leadId) throws Exception {
         if(bindingResult.hasErrors()){
             eventDisplay.setTimeZoneLabels(TimeDateUtil.getTimeZonesWithLabels());
             model.addAttribute("eventDisplay", eventDisplay);
@@ -250,7 +250,7 @@ public class GoogleCalendarController {
     @PostMapping("/ajax-update-event")
     @ResponseBody
     public ResponseEntity<String> updateEventByAjax(@RequestParam("id") String id, @RequestParam("startTime") String startTime,
-                                                    @RequestParam("endTime") String endTime, @RequestParam("summary") String summary, Authentication authentication){
+                                                    @RequestParam("endTime") String endTime, @RequestParam("summary") String summary, Authentication authentication) throws Exception {
 
         if(summary == null || summary.isEmpty()){
             return ResponseEntity.badRequest().body("Name is required");
@@ -290,7 +290,7 @@ public class GoogleCalendarController {
     }
 
     @RequestMapping("/delete-event/{id}")
-    public String deleteEvent(@PathVariable("id") String eventId, Authentication authentication, Model model){
+    public String deleteEvent(@PathVariable("id") String eventId, Authentication authentication, Model model) throws Exception {
         if((authentication instanceof UsernamePasswordAuthenticationToken)) {
             return "/google-error";
         }
@@ -305,7 +305,7 @@ public class GoogleCalendarController {
 
     @RequestMapping("/ajax-delete-event")
     @ResponseBody
-    public ResponseEntity<String> deleteEventByAjax(@RequestParam("id") String id, Authentication authentication){
+    public ResponseEntity<String> deleteEventByAjax(@RequestParam("id") String id, Authentication authentication) throws Exception{
         OAuthUser oAuthUser = authenticationUtils.getOAuthUserFromAuthentication(authentication);
         try {
             googleCalendarApiService.deleteEvent("primary",oAuthUser,id);

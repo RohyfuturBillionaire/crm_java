@@ -8,6 +8,7 @@ import lombok.Builder.Default;
 import org.hibernate.mapping.ToOne;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.ExecutionException;
 
 @Entity
 @Table(name = "trigger_ticket")
@@ -93,7 +94,10 @@ public class Ticket {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(String status) throws Exception {
+        if (!status.matches("^(open|assigned|on-hold|in-progress|resolved|closed|reopened|pending-customer-response|escalated|archived)$")) {
+            throw new IllegalArgumentException("Invalid status");
+        }
         this.status = status;
     }
 
@@ -102,6 +106,9 @@ public class Ticket {
     }
 
     public void setPriority(String priority) {
+        if (!priority.matches("^(low|medium|high|closed|urgent|critical)$")) {
+            throw new IllegalArgumentException("Invalid status");
+        }
         this.priority = priority;
     }
 

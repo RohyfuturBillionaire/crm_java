@@ -101,7 +101,10 @@ public class Lead {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(String status) throws Exception {
+        if (!status.matches("^(meeting-to-schedule|scheduled|archived|success|assign-to-sales)$")) {
+            throw new IllegalArgumentException("Invalid status");
+        }
         this.status = status;
     }
 

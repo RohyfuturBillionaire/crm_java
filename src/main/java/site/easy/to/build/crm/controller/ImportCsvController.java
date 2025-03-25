@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import site.easy.to.build.crm.entity.TicketDepense;
+import site.easy.to.build.crm.exception.ImportException;
 import site.easy.to.build.crm.repository.CustomerRepository;
 import site.easy.to.build.crm.service.BudgetService;
 import site.easy.to.build.crm.service.customer.CustomerLoginInfoService;
@@ -78,8 +79,10 @@ public class ImportCsvController {
             importService.ImportMitambatra(file, file2,file3,customerService, ',', passwordEncoder, customerLoginInfoService,
              userService, ticketService,leadService,depenseService,budgetService);
             model.addAttribute("message","importation reussie");
+        } catch (ImportException e) {
+            model.addAttribute("errors", e.getErrors());
         } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
+            model.addAttribute("message", "Erreur lors de l'importation");
         }
         return "import/import";
     }
