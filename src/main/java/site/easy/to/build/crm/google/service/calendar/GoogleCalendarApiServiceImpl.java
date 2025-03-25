@@ -97,7 +97,7 @@ public class GoogleCalendarApiServiceImpl implements GoogleCalendarApiService {
         return createdEvent.getId();
     }
 
-    public Event updateEvent(String calendarId, OAuthUser oauthUser, String eventId, Event updatedEvent) throws IOException, GeneralSecurityException {
+    public Event updateEvent(String calendarId, OAuthUser oauthUser, String eventId, Event updatedEvent) throws IOException,Exception,GeneralSecurityException {
         String accessToken = oAuthUserService.refreshAccessTokenIfNeeded(oauthUser);
 
         updateLead(oauthUser, eventId, "Meeting updated");
@@ -115,7 +115,7 @@ public class GoogleCalendarApiServiceImpl implements GoogleCalendarApiService {
         return objectMapper.readValue(jsonResponse, Event.class);
     }
 
-    public void deleteEvent(String calendarId, OAuthUser oauthUser, String eventId) throws IOException, GeneralSecurityException {
+    public void deleteEvent(String calendarId, OAuthUser oauthUser, String eventId) throws IOException, GeneralSecurityException,Exception {
         String accessToken = oAuthUserService.refreshAccessTokenIfNeeded(oauthUser);
 
         updateLead(oauthUser, eventId, "Meeting canceled");
@@ -157,7 +157,7 @@ public class GoogleCalendarApiServiceImpl implements GoogleCalendarApiService {
         );
     }
 
-    private void updateLead(OAuthUser oAuthUser, String eventId, String status) {
+    private void updateLead(OAuthUser oAuthUser, String eventId, String status) throws Exception {
         Lead lead = leadService.findByMeetingId(eventId);
         if (lead != null) {
             lead.setEmployee(oAuthUser.getUser());

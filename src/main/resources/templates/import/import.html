@@ -76,6 +76,11 @@
                                 <div th:if="${message != null}" class="alert alert-info">
                                     <span th:text="${message}"></span>
                                 </div>
+                                <div th:if="${errors != null}" class="alert alert-info">
+                                    <ul>
+                                        <li th:each="error : ${errors}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
     
                                 <!-- Formulaire d'importation -->
                                 <form th:action="@{/import/importCustomer}" method="post" enctype="multipart/form-data">
