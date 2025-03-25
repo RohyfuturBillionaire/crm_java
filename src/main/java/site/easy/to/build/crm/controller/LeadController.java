@@ -236,6 +236,26 @@ public class LeadController {
           notifService.save(notif);
         
       }
+      if (depenseToInsert.getEtat()==0) {
+        List<User> employees = new ArrayList<>();
+        List<Customer> customers;
+
+        if(AuthorizationUtil.hasRole(authentication, "ROLE_MANAGER")) {
+            employees = userService.findAll();
+            customers = customerService.findAll();
+        } else {
+            employees.add(manager);
+            customers = customerService.findByUserId(manager.getId());
+        }
+
+        model.addAttribute("employees",employees);
+        model.addAttribute("customers",customers);
+        model.addAttribute("notification", notif);
+        model.addAttribute("ticket", lead);
+        model.addAttribute("depense", depense);
+        return "lead/create-lead";
+        
+    }
         
         fileUtil.saveFiles(allFiles, createdLead);
 

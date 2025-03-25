@@ -149,7 +149,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="depenseErrorModal" tabindex="-1" aria-labelledby="depenseErrorModalLabel" aria-hidden="true">
+            <div class="modal fade" id="depenseErrorModal" role="dialog" tabindex="-1" aria-labelledby="depenseErrorModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -160,7 +160,7 @@
                       <p th:if="${notification}" th:text="${notification.message}" class="text-danger"></p>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                      <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">Fermer</button>
                     </div>
                   </div>
                 </div>
@@ -203,7 +203,10 @@
     document.addEventListener("DOMContentLoaded", function() {
     var modalElement = document.getElementById('depenseErrorModal');
     var modal = new bootstrap.Modal(modalElement);
-    
+    var close = document.getElementById('close');
+    close.addEventListener('click', function() {
+        modal.hide();
+    });
     modalElement.addEventListener('hidden.bs.modal', function () {
         modal.dispose(); // Libérer les ressources du modal
     });
